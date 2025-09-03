@@ -149,7 +149,7 @@ namespace CourseProjectServer {
                         controller.AddTrainee(trainee));
 
                 endpoints.MapPost("/api/trainer",
-                    [Authorize] (EntetiesController controller, [FromBody] Trainer trainer) =>
+                    /*[Authorize]*/ (EntetiesController controller, [FromBody] Trainer trainer) =>
                         controller.AddTrainer(trainer));
 
                 endpoints.MapPost("/api/workout",
