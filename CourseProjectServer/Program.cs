@@ -92,11 +92,6 @@ namespace CourseProjectServer {
             app.UseAuthentication();
             app.UseAuthorization();
 
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope()) {
-                var context = serviceScope.ServiceProvider.GetRequiredService<CourseDbContext>();
-                await context.Database.MigrateAsync();
-            }
-
             app.UseEndpoints(endpoints => {
 
                 #region MapGet
@@ -224,6 +219,11 @@ namespace CourseProjectServer {
                     (EntetiesController controller, int id) => controller.DeleteKnowladgeBase(id));
                 #endregion
             });
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope()) {
+                var context = serviceScope.ServiceProvider.GetRequiredService<CourseDbContext>();
+                await context.Database.MigrateAsync();
+            }
         }
     }
 }
