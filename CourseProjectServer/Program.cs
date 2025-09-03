@@ -5,6 +5,7 @@ using CourseProjectServer.Data.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CourseProjectServer {
@@ -76,7 +77,7 @@ namespace CourseProjectServer {
                 });
         }
 
-        public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
+        public async void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
             app.UseRouting();
 
             if (env.IsDevelopment()) {
@@ -90,6 +91,11 @@ namespace CourseProjectServer {
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope()) {
+                var context = serviceScope.ServiceProvider.GetRequiredService<CourseDbContext>();
+                await context.Database.MigrateAsync();
+            }
 
             app.UseEndpoints(endpoints => {
 
@@ -170,7 +176,7 @@ namespace CourseProjectServer {
                 endpoints.MapPost("/api/knowladgebase",
                     [Authorize] (EntetiesController controller, [FromBody] KnowladgeBase knowladge) =>
                         controller.AddKnowladgeBase(knowladge));
-                
+
                 //также для подтверждения email. Еще потом добавить в бд isEmailApproved
                 endpoints.MapPost("/api/forgetpassword/{email}",
                     (EntetiesController controller, string email) =>
@@ -182,15 +188,15 @@ namespace CourseProjectServer {
                 //endpoints.MapPost("/api/user/exercises")
 
                 /*
-                 * "/api/user/"
-                 * "/api/user/"
-                 * "/api/user/"
-                 * "/api/user/"
-                 * "/api/user/"
-                 * "/api/user/"
-                 * "/api/user/"
-                 * "/api/user/"
-                 */
+                    * "/api/user/"
+                    * "/api/user/"
+                    * "/api/user/"
+                    * "/api/user/"
+                    * "/api/user/"
+                    * "/api/user/"
+                    * "/api/user/"
+                    * "/api/user/"
+                    */
                 #endregion
 
 
