@@ -45,7 +45,7 @@ namespace CourseProjectServer {
                 options.AddPolicy("ProdCors", builder =>
                 {
                     builder
-                        .WithOrigins("https://myapp.com") // домен продакшн фронтенда
+                        .WithOrigins("https://myapp.com", "http://localhost:4200") // домен продакшн фронтенда
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
