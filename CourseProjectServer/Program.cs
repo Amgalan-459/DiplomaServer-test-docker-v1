@@ -45,7 +45,7 @@ namespace CourseProjectServer {
                 options.AddPolicy("ProdCors", builder =>
                 {
                     builder
-                        .WithOrigins("https://diploma-v1-nout.vercel.app/", "http://localhost:4200") // домен продакшн фронтенда
+                        .WithOrigins("https://diploma-v1-nout.vercel.app", "http://localhost:4200") // домен продакшн фронтенда
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
